@@ -1,5 +1,9 @@
 <template>
-  <BaseButton class="hamburger" v-if="width.isMobile">
+  <BaseButton
+    class="hamburger"
+    :class="[view, isHamburgerActive]"
+    @click="menu.toggleMenu()"
+  >
     <span class="hamburger__box">
       <span class="hamburger__box-line"></span>
     </span>
@@ -8,16 +12,25 @@
 
 <script setup lang="ts">
 import BaseButton from "../cards/BaseButton.vue";
-import { useUserWindowSize } from '../../../store/userWindowSize.ts';
+import { useMobileMenuVisibility } from "../../../store/mobileMenuVisibility";
+import { computed } from "vue";
+const menu = useMobileMenuVisibility();
 
-const width = useUserWindowSize();
+defineProps<{
+  view?: string;
+}>();
 
-
-
-
+const isHamburgerActive = computed(() => {
+  return { "is-active": menu.isActive };
+});
 </script>
 
 <style scoped lang="scss">
+.mobile-menu-hamburger {
+  position: absolute;
+  padding: 2rem;
+  align-self: flex-end;
+}
 .hamburger {
   display: flex;
   flex-direction: column;
@@ -67,7 +80,7 @@ const width = useUserWindowSize();
   }
 }
 
-.isActive {
+.is-active {
   .hamburger {
     &__box {
       &-line {

@@ -1,5 +1,5 @@
 <template>
-  <ul class="links-list">
+  <ul class="links-list" :class="view">
     <li class="links-list__box" v-for="({ path, name }, id) in links" :key="id">
       <BaseButton mode="empty" :is-link="true" :path="path"> {{ name }}</BaseButton>
     </li>
@@ -10,6 +10,10 @@
 import { ref } from "vue";
 import { Links } from "../../../types/links";
 
+defineProps<{
+  view?: string;
+}>();
+
 const links = ref<Links[]>([
   { path: "/houses", name: "Houses" },
   { path: "/persons", name: "Persons" },
@@ -18,16 +22,27 @@ const links = ref<Links[]>([
 </script>
 
 <style scoped lang="scss">
+.mobile-menu-links-list {
+  @include flex-center;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  overflow: auto;
+
+  .links-list {
+    &__box {
+      font-size: 3rem;
+    }
+  }
+}
+
+
 .links-list {
-  display: none;
+  @include flex-center;
+  gap: 3rem;
 
   &__box {
     font-size: 1.8rem;
-  }
-
-  @media (width >= 768px) {
-    @include flex-center;
-    gap: 3rem;
   }
 }
 </style>
