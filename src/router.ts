@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-const HomePage = () => '';
+const HousesList = () => import('./components/content/HousesList.vue');
 
 export default createRouter({
    history: createWebHistory(),
@@ -12,7 +12,7 @@ export default createRouter({
       {
          name: "houses",
          path: "/houses",
-         component: HomePage,
+         component: HousesList,
       },
    ],
 });
