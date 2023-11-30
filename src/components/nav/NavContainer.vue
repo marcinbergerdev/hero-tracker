@@ -10,4 +10,9 @@ import NavLogo from "./NavLogo.vue";
 import NavLinks from "./NavLinks.vue";
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.nav-container{
+  @include flex-center;
+
+}
+</style>
