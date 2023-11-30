@@ -1,13 +1,26 @@
 <template>
-  <div>
+  <router-link :class="mode" v-if="isLink" :to="to">
+    <slot />
+  </router-link>
 
-  </div>
+  <button :class="mode" v-else>
+    <slot />
+  </button>
 </template>
 
 <script setup lang="ts">
-
+defineProps<{
+  mode?: string;
+  isLink?: boolean;
+  to?: string;
+}>();
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.empty{
+  
+}
+
 
 </style>

@@ -1,11 +1,9 @@
 <template>
-
+  <header>
+    <BaseButton mode="empty" :isLink="true" to="/">Hero Tracker</BaseButton>
+  </header>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>
