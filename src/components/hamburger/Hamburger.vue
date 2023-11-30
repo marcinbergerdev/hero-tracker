@@ -1,12 +1,14 @@
 <template>
-  <button class="hamburger">
+  <BaseButton class="hamburger">
     <span class="hamburger__box">
       <span class="hamburger__box-line"></span>
     </span>
-  </button>
+  </BaseButton>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import BaseButton from '../cards/BaseButton.vue';
+</script>
 
 <style scoped lang="scss">
 .hamburger {

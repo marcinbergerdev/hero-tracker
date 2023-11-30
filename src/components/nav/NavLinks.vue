@@ -1,7 +1,7 @@
 <template>
   <ul class="links-list">
     <li class="links-list__box" v-for="({ path, name }, id) in links" :key="id">
-      <BaseButton mode="empty" :isLink="true" :to="path"> {{ name }}</BaseButton>
+      <BaseButton mode="empty" :is-link="true" :path="path"> {{ name }}</BaseButton>
     </li>
   </ul>
 </template>
@@ -19,11 +19,15 @@ const links = ref<Links[]>([
 
 <style scoped lang="scss">
 .links-list {
-  @include flex-center;
-  gap: 3rem;
+  display: none;
 
   &__box {
     font-size: 1.8rem;
+  }
+
+  @media (width >= 768px) {
+    @include flex-center;
+    gap: 3rem;
   }
 }
 </style>

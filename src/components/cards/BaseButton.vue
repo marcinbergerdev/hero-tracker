@@ -1,5 +1,5 @@
 <template>
-  <router-link :class="mode" v-if="isLink" :to="to">
+  <router-link :class="mode" v-if="isLink" :to="path">
     <slot />
   </router-link>
 
@@ -12,15 +12,12 @@
 defineProps<{
   mode?: string;
   isLink?: boolean;
-  to: string;
+  path?: any;
 }>();
 </script>
 
 <style scoped lang="scss">
-
-.empty{
+.empty {
   color: var(--text-clr);
 }
-
-
 </style>

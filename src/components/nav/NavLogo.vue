@@ -1,6 +1,6 @@
 <template>
   <header class="header-logo">
-    <BaseButton mode="empty" :isLink="true" to="/">Hero Tracker</BaseButton>
+    <BaseButton mode="empty" :is-link="true" path="/">Hero Tracker</BaseButton>
   </header>
 </template>
 

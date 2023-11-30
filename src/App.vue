@@ -21,7 +21,7 @@ import NavContainer from "./components/nav/NavContainer.vue";
 }
 
 .content-container {
-  background-color: var(--content-bg);
   height: calc(100vh - 5rem);
+  background-color: var(--content-bg);
 }
 </style>
