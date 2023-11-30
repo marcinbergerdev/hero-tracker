@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseButton from '../cards/BaseButton.vue';
+import BaseButton from "../cards/BaseButton.vue";
 </script>
 
 <style scoped lang="scss">
@@ -57,10 +57,6 @@ import BaseButton from '../cards/BaseButton.vue';
         left: 0;
       }
     }
-  }
-
-  @media (min-width: 768px) {
-    display: none;
   }
 }
 
