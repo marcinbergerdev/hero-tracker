@@ -1,5 +1,5 @@
 <template>
-  <BaseButton class="hamburger">
+  <BaseButton class="hamburger" v-if="width.isMobile">
     <span class="hamburger__box">
       <span class="hamburger__box-line"></span>
     </span>
@@ -8,6 +8,13 @@
 
 <script setup lang="ts">
 import BaseButton from "../cards/BaseButton.vue";
+import { useUserWindowSize } from '../../../store/userWindowSize.ts';
+
+const width = useUserWindowSize();
+
+
+
+
 </script>
 
 <style scoped lang="scss">
