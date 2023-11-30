@@ -2,17 +2,22 @@
   <nav class="nav-container">
     <NavLogo />
     <Hamburger v-if="width.isMobile" />
-    <NavLinks v-else/>
+    <NavLinks v-else />
 
-    <MobileMenu v-if="width.isMobile"/> 
+    <Teleport to="body">
+      <MobileMenu v-if="width.isMobile" />
+    </Teleport>
   </nav>
 </template>
 
 <script setup lang="ts">
-import NavLogo from "./NavLogo.vue";
-import Hamburger from "../hamburger/Hamburger.vue";
-import NavLinks from "./NavLinks.vue";
-import MobileMenu from "../mobile/MobileMenu.vue";
+import { defineAsyncComponent } from "vue";
+
+const NavLogo = defineAsyncComponent(() => import("./NavLogo.vue"));
+const Hamburger = defineAsyncComponent(() => import("../hamburger/Hamburger.vue"));
+const NavLinks = defineAsyncComponent(() => import("./NavLinks.vue"));
+const MobileMenu = defineAsyncComponent(() => import("../mobile/MobileMenu.vue"));
+
 import { useUserWindowSize } from "../../../store/userWindowSize.ts";
 
 const width = useUserWindowSize();

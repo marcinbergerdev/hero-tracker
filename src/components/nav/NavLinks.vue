@@ -7,8 +7,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import { Links } from "../../../types/links";
+import { ref } from "vue";
 
 defineProps<{
   view?: string;

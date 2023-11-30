@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-import BaseButton from "../cards/BaseButton.vue";
 import { useMobileMenuVisibility } from "../../../store/mobileMenuVisibility";
 import { computed } from "vue";
 const menu = useMobileMenuVisibility();

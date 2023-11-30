@@ -1,19 +1,16 @@
 <template>
-  <Teleport to="body">
-    <div class="mobile-menu-container" :class="isMenuActive">
-      <Hamburger view="mobile-menu-hamburger" />
-      <NavLinks view="mobile-menu-links-list" />
-    </div>
-  </Teleport>
+  <div class="mobile-menu-container" :class="isMenuActive">
+    <Hamburger view="mobile-menu-hamburger" />
+    <NavLinks view="mobile-menu-links-list" />
+  </div>
 </template>
 
 <script setup lang="ts">
-import Hamburger from "../hamburger/Hamburger.vue";
-import NavLinks from "../nav/NavLinks.vue";
+import { computed, defineAsyncComponent } from "vue";
 import { useMobileMenuVisibility } from "../../../store/mobileMenuVisibility";
-import { computed } from "vue";
 
-
+const Hamburger = defineAsyncComponent(() => import("../hamburger/Hamburger.vue"));
+const NavLinks = defineAsyncComponent(() => import("../nav/NavLinks.vue"));
 const menu = useMobileMenuVisibility();
 
 const isMenuActive = computed(() => {
