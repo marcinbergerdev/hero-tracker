@@ -12,14 +12,14 @@
 defineProps<{
   mode?: string;
   isLink?: boolean;
-  to?: string;
+  to: string;
 }>();
 </script>
 
 <style scoped lang="scss">
 
 .empty{
-  
+  color: var(--text-clr);
 }
 
 
