@@ -6,11 +6,11 @@
 </template>
 
 <script setup lang="ts">
+const Hamburger = defineAsyncComponent(() => import("../hamburger/Hamburger.vue"));
+const NavLinks = defineAsyncComponent(() => import("../nav/NavLinks.vue"));
 import { computed, defineAsyncComponent } from "vue";
 import { useMobileMenuVisibility } from "../../../store/mobileMenuVisibility";
 
-const Hamburger = defineAsyncComponent(() => import("../hamburger/Hamburger.vue"));
-const NavLinks = defineAsyncComponent(() => import("../nav/NavLinks.vue"));
 const menu = useMobileMenuVisibility();
 
 const isMenuActive = computed(() => {
