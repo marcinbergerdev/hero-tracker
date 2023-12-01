@@ -20,4 +20,9 @@ defineProps<{
 .empty {
   color: var(--text-clr);
 }
+
+.router-link-active{
+   opacity: 1;
+   transition: 0.3s ease-in-out;
+}
 </style>

@@ -30,6 +30,7 @@ const isHamburgerActive = computed(() => {
   padding: 2rem;
   align-self: flex-end;
 }
+
 .hamburger {
   display: flex;
   flex-direction: column;
