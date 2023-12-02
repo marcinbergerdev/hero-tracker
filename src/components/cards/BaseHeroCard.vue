@@ -4,21 +4,15 @@
 
     <div class="hero-container" v-else>
       <header class="hero-header">
-        <h1 class="hero-header__house-name">{{ membersOfHouse.name }}</h1>
+        <h1 class="hero-header__house-name" v-if="routeName === 'house'">
+          {{ membersOfHouse.name }}
+        </h1>
+        <h1 class="hero-header__person-name" v-else>{{ personOfHouse.name }}</h1>
       </header>
 
-      <section class="hero-list-section">
-        <ul class="hero-list">
-          <li
-            class="hero-list-box"
-            v-for="(member, id) in membersOfHouse.members"
-            :key="id"
-          >
-            <h2>{{ member.name }}</h2>
-            <p class="hero-list-box__slug">( {{ member.slug }} )</p>
-          </li>
-        </ul>
-      </section>
+      <HouseCard view="members" v-if="routeName === 'house'" :house="membersOfHouse"></HouseCard>
+      <PersonCard view="person" v-else :person="personOfHouse"></PersonCard>
+
       <BaseButton mode="filled" class="backButton" :isLink="true" to="/houses"
         >Back</BaseButton
       >
@@ -30,13 +24,16 @@
 const LoadingSpinner = defineAsyncComponent(
   () => import("../spinner/LoadingSpinner.vue")
 );
-import { Members } from "../../../types/members.ts";
+const HouseCard = defineAsyncComponent(() => import("../content/HouseCard.vue"));
+const PersonCard = defineAsyncComponent(() => import("../content/PersonCard.vue"));
+import { Members, Character } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { reactive, onMounted, defineAsyncComponent } from "vue";
 
 const route = useRoute();
+const routeName = String(route.name);
 const path = route.params.id;
 
 const heroes = useGetHeroes();
@@ -44,12 +41,35 @@ const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
 const { setHeroes } = heroes;
 
 let membersOfHouse = reactive<Members>({ name: "", members: [] });
+let personOfHouse = reactive<Character>({
+  house: { slug: "", name: "" },
+  name: "",
+  quotes: [],
+  slug: "",
+});
 
-onMounted(async () => {
-  await setHeroes(`house/${path}`);
-
+const setHouses = () => {
   membersOfHouse.name = selectedHeroes.value[0].name;
   membersOfHouse.members = selectedHeroes.value[0].members;
+  console.log(membersOfHouse);
+};
+
+const setPersons = () => {
+  personOfHouse.house = selectedHeroes.value[0].house;
+  personOfHouse.name = selectedHeroes.value[0].name;
+  personOfHouse.quotes = selectedHeroes.value[0].quotes;
+  personOfHouse.slug = selectedHeroes.value[0].slug;
+  console.log(personOfHouse);
+};
+
+onMounted(async () => {
+  await setHeroes(`${String(routeName)}/${path}`);
+  if (routeName === "house") {
+    setHouses();
+  } else {
+    console.log(selectedHeroes.value[0]);
+    setPersons();
+  }
 });
 </script>
 
@@ -65,17 +85,24 @@ onMounted(async () => {
   height: calc(100vh - 4.9rem - 2rem);
   padding: 1rem 0;
   overflow: auto;
+  color: var(--text-clr);
 }
 
 .hero-header {
   @include flex-center;
   flex: 1;
   margin: 3rem 0;
-  &__house-name {
+
+  &__house-name,
+  &__person-name {
     text-align: center;
-    color: var(--text-clr);
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     font-weight: 400;
+  }
+
+  &__person-name {
+    padding: 2rem;
+    border: 2px solid var(--header-bg);
   }
 }
 
@@ -83,6 +110,7 @@ onMounted(async () => {
   flex: 2;
   width: 100%;
 }
+
 
 .hero-list {
   @include flex-center;
@@ -92,6 +120,14 @@ onMounted(async () => {
   width: min(40rem, 90%);
 }
 
+.quotes {
+  text-align: start;
+  padding: 4rem 0;
+}
+.quotes-title {
+  font-size: 2rem;
+}
+
 .hero-list-box {
   @include flex-center;
   gap: 0 2rem;
@@ -99,7 +135,6 @@ onMounted(async () => {
   padding: 1rem;
   border: 2px solid var(--header-bg);
   border-radius: 1rem;
-  color: var(--text-clr);
 
   &__slug {
     font-size: 1.5rem;

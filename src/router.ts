@@ -31,7 +31,7 @@ export default createRouter({
       {
          name: "character",
          path: "/persons/:id",
-         component: PersonsList,
+         component: BaseHeroCard,
          props: true,
       },
       {

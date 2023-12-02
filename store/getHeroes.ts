@@ -16,7 +16,7 @@ export const useGetHeroes = defineStore("getHeroes", () => {
    const setHeroes = async (urlPath: string ) => {
       try {
          isLoadingSpinner.value = true;
-
+         
          const response = await fetch(`https://api.gameofthronesquotes.xyz/v1/${urlPath}`);
          dataValidation(response);
 
