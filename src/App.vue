@@ -1,6 +1,10 @@
 <template>
   <header class="header-container">
     <NavContainer></NavContainer>
+
+    <Teleport to="body">
+      <MobileMenu v-if="width.isMobile" />
+    </Teleport>
   </header>
 
   <main class="content-container">
@@ -9,8 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
 const NavContainer = defineAsyncComponent(() => import("./components/nav/NavContainer.vue"));
+const MobileMenu = defineAsyncComponent(() => import("./components/mobile/MobileMenu.vue"));
+import { defineAsyncComponent } from "vue";
+import { useUserWindowSize } from "../store/userWindowSize";
+
+
+const width = useUserWindowSize();
 </script>
 
 <style lang="scss">
@@ -24,5 +33,6 @@ const NavContainer = defineAsyncComponent(() => import("./components/nav/NavCont
 .content-container {
   height: calc(100vh - 5rem);
   background-color: var(--content-bg);
+  overflow: hidden;
 }
 </style>

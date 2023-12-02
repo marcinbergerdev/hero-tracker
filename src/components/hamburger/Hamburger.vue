@@ -32,9 +32,8 @@ const isHamburgerActive = computed(() => {
 }
 
 .hamburger {
-  display: flex;
+  @include flex-center;
   flex-direction: column;
-  align-items: center;
   gap: 0.5rem 0;
   background-color: transparent;
   border: 0;

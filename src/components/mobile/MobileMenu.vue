@@ -6,11 +6,11 @@
 </template>
 
 <script setup lang="ts">
+const Hamburger = defineAsyncComponent(() => import("../hamburger/Hamburger.vue"));
+const NavLinks = defineAsyncComponent(() => import("../nav/NavLinks.vue"));
 import { computed, defineAsyncComponent } from "vue";
 import { useMobileMenuVisibility } from "../../../store/mobileMenuVisibility";
 
-const Hamburger = defineAsyncComponent(() => import("../hamburger/Hamburger.vue"));
-const NavLinks = defineAsyncComponent(() => import("../nav/NavLinks.vue"));
 const menu = useMobileMenuVisibility();
 
 const isMenuActive = computed(() => {
@@ -24,13 +24,15 @@ const isMenuActive = computed(() => {
   top: 0;
   left: -100%;
 
-  display: flex;
+  @include flex-center;
   flex-direction: column;
 
+  padding: 5rem 0;
   width: 100%;
   height: 100vh;
   background-color: var(--header-bg);
   transition: translate 0.25s ease-in-out;
+  overflow: auto;
 }
 
 .menu-active {
