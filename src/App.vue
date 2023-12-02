@@ -32,5 +32,6 @@ const width = useUserWindowSize();
 .content-container {
   height: calc(100vh - 5rem);
   background-color: var(--content-bg);
+  overflow: hidden;
 }
 </style>

@@ -2,12 +2,12 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
 export const useGetHeroes = defineStore("getHeroes", () => {
-   const selectedHeroes = ref(null);
+   const selectedHeroes: any = ref(null);
    const isLoadingSpinner = ref(false);
    const errorMessage = ref("");
 
    const dataValidation = (response: Response) => {
-      if (!response.ok) {
+      if (!response.ok || response.status === 404) {
          throw new Error("Something goes wrong, try later!");
       }
    };

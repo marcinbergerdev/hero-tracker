@@ -20,4 +20,11 @@ defineProps<{
 .empty {
   color: var(--text-clr);
 }
+
+.filled{
+  font-size: 1.5rem;
+  color: var(--text-clr); 
+  background-color: var(--header-bg);
+  border-radius: 1.3rem;
+}
 </style>
