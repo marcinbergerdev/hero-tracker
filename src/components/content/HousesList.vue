@@ -1,7 +1,7 @@
 <template>
-  <!-- <LoadingSpinner /> -->
-
   <div class="houses-wrapper">
+    <LoadingSpinner v-if="isLoadingSpinner" />
+
     <header class="houses-header">
       <form class="houses-form">
         <div class="form-box">
@@ -31,12 +31,12 @@
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
-// import LoadingSpinner from "../spinner/LoadingSpinner.vue";
+import LoadingSpinner from "../spinner/LoadingSpinner.vue";
 
 const houseName = ref("");
 
 const heroes = useGetHeroes();
-const { selectedHeroes } = storeToRefs(heroes);
+const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
 const { setHeroes } = heroes;
 
 onMounted(async () => {
@@ -48,6 +48,7 @@ onMounted(async () => {
 
 <style scoped lang="scss">
 .houses-wrapper {
+  position: relative;
   margin: 0 auto;
   width: min(70rem, 90%);
   height: inherit;
@@ -87,8 +88,8 @@ onMounted(async () => {
   justify-content: center;
   gap: 3rem 0;
   margin: 0 auto;
-  
-  @media(width >= 768px){
+
+  @media (width >= 768px) {
     justify-content: space-between;
     flex-flow: wrap row;
   }

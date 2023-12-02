@@ -19,6 +19,11 @@
 
 <style scoped lang="scss">
 .loading-spinner-container {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-40%);
+
 }
 
 .lds-roller {
