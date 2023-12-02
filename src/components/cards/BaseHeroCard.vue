@@ -10,10 +10,18 @@
         <h1 class="hero-header__person-name" v-else>{{ personOfHouse.name }}</h1>
       </header>
 
-      <HouseCard view="members" v-if="routeName === 'house'" :house="membersOfHouse"></HouseCard>
+      <HouseCard
+        view="members"
+        v-if="routeName === 'house'"
+        :house="membersOfHouse"
+      ></HouseCard>
       <PersonCard view="person" v-else :person="personOfHouse"></PersonCard>
 
-      <BaseButton mode="filled" class="backButton" :isLink="true" to="/houses"
+      <BaseButton
+        mode="filled"
+        class="backButton"
+        :isLink="true"
+        :to="`/${routeName === 'house' ? 'houses' : 'persons'}`"
         >Back</BaseButton
       >
     </div>
@@ -51,7 +59,6 @@ let personOfHouse = reactive<Character>({
 const setHouses = () => {
   membersOfHouse.name = selectedHeroes.value[0].name;
   membersOfHouse.members = selectedHeroes.value[0].members;
-  console.log(membersOfHouse);
 };
 
 const setPersons = () => {
@@ -59,7 +66,6 @@ const setPersons = () => {
   personOfHouse.name = selectedHeroes.value[0].name;
   personOfHouse.quotes = selectedHeroes.value[0].quotes;
   personOfHouse.slug = selectedHeroes.value[0].slug;
-  console.log(personOfHouse);
 };
 
 onMounted(async () => {
@@ -110,7 +116,6 @@ onMounted(async () => {
   flex: 2;
   width: 100%;
 }
-
 
 .hero-list {
   @include flex-center;

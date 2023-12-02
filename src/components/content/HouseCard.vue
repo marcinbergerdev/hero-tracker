@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { Members } from "../../../../types/members";
+import { Members } from "../../../types/members";
 
 defineProps<{
   house: Members;

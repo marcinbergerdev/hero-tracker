@@ -1,6 +1,5 @@
-import { cloneFnJSON } from "@vueuse/core";
 import { defineStore } from "pinia";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
 export const useGetHeroes = defineStore("getHeroes", () => {
    const selectedHeroes = ref();

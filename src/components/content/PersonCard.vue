@@ -20,16 +20,14 @@ defineProps<{
   person: Character;
   view: string;
 }>();
-
 </script>
 
 <style scoped lang="scss">
-
-.person-house-name{
+.person-house-name {
   text-align: center;
-    font-size: 3.5rem;
-    font-weight: 400;
-    padding: 3rem 0;
+  font-size: 3.5rem;
+  font-weight: 400;
+  padding: 3rem 0;
 }
 
 .hero-list {
@@ -37,7 +35,7 @@ defineProps<{
   flex-direction: column;
   gap: 2rem 0;
   margin: 0 auto;
-  width: min(40rem, 90%);
+  width: min(80rem, 90%);
 }
 
 .quotes {
