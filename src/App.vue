@@ -18,6 +18,7 @@ const MobileMenu = defineAsyncComponent(() => import("./components/mobile/Mobile
 import { defineAsyncComponent } from "vue";
 import { useUserWindowSize } from "../store/userWindowSize";
 
+
 const width = useUserWindowSize();
 </script>
 

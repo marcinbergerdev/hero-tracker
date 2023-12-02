@@ -1,7 +1,5 @@
 <template>
   <div class="houses-wrapper">
-    <LoadingSpinner v-if="isLoadingSpinner" />
-
     <header class="houses-header">
       <form class="houses-form">
         <div class="form-box">
@@ -15,10 +13,17 @@
       </form>
     </header>
 
-    <section class="houses-list-container">
+    <LoadingSpinner v-if="isLoadingSpinner" />
+
+    <section class="houses-list-container" v-else>
       <ul class="houses-list">
         <li class="house-list-box" v-for="(house, id) in selectedHeroes" :key="id">
-          <BaseButton mode="filled" class="house-list-box__link" :isLink="true" path="#">
+          <BaseButton
+            mode="filled"
+            class="house-list-box__link"
+            :isLink="true"
+            :path="`/houses/${house.slug}`"
+          >
             {{ house.name }}</BaseButton
           >
         </li>
@@ -28,10 +33,10 @@
 </template>
 
 <script setup lang="ts">
+const LoadingSpinner = defineAsyncComponent(() => import("../spinner/LoadingSpinner.vue"));
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { storeToRefs } from "pinia";
-import { ref, onMounted } from "vue";
-import LoadingSpinner from "../spinner/LoadingSpinner.vue";
+import { ref, onMounted, defineAsyncComponent} from "vue";
 
 const houseName = ref("");
 
@@ -41,8 +46,6 @@ const { setHeroes } = heroes;
 
 onMounted(async () => {
   await setHeroes("houses");
-
-  console.log(selectedHeroes.value);
 });
 </script>
 

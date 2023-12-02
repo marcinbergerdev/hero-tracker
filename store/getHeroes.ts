@@ -1,10 +1,11 @@
+import { cloneFnJSON } from "@vueuse/core";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
 export const useGetHeroes = defineStore("getHeroes", () => {
-   const selectedHeroes: any = ref(null);
-   const isLoadingSpinner = ref(false);
-   const errorMessage = ref("");
+   const selectedHeroes = ref();
+   const isLoadingSpinner = ref<boolean>(false);
+   const errorMessage = ref<string>("");
 
    const dataValidation = (response: Response) => {
       if (!response.ok || response.status === 404) {
@@ -13,6 +14,8 @@ export const useGetHeroes = defineStore("getHeroes", () => {
    };
 
    const setHeroes = async (urlPath: string ) => {
+      console.log(urlPath, 'api');
+
       try {
          isLoadingSpinner.value = true;
 
@@ -20,6 +23,8 @@ export const useGetHeroes = defineStore("getHeroes", () => {
          dataValidation(response);
 
          const data = await response.json();
+
+         console.log(data, 'api');
          selectedHeroes.value = data;
 
       } catch (error: any) {
