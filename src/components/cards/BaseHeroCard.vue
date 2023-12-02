@@ -73,7 +73,6 @@ onMounted(async () => {
   if (routeName === "house") {
     setHouses();
   } else {
-    console.log(selectedHeroes.value[0]);
     setPersons();
   }
 });
