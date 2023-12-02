@@ -21,16 +21,15 @@ defineProps<{
   color: var(--text-clr);
 }
 
-<<<<<<< HEAD
 .router-link-active{
    opacity: 1;
    transition: 0.3s ease-in-out;
-=======
+}
 .filled{
   font-size: 1.5rem;
   color: var(--text-clr); 
   background-color: var(--header-bg);
   border-radius: 1.3rem;
->>>>>>> feature
 }
+
 </style>
