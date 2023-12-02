@@ -17,7 +17,7 @@
 
     <section class="houses-list-container" v-else>
       <ul class="houses-list">
-        <li class="house-list-box" v-for="(house, id) in selectedHeroes" :key="id">
+        <li class="house-list-box" v-for="(house, id) in selectedHousesAfterFiltration" :key="id">
           <BaseButton
             mode="filled"
             class="house-list-box__link"
@@ -33,19 +33,32 @@
 </template>
 
 <script setup lang="ts">
-const LoadingSpinner = defineAsyncComponent(() => import("../spinner/LoadingSpinner.vue"));
+const LoadingSpinner = defineAsyncComponent(
+  () => import("../spinner/LoadingSpinner.vue")
+);
+import { Person } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { storeToRefs } from "pinia";
-import { ref, onMounted, defineAsyncComponent} from "vue";
+import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 
 const houseName = ref("");
+const houses = ref<Person[]>([]);
 
 const heroes = useGetHeroes();
 const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
 const { setHeroes } = heroes;
 
+const selectedHousesAfterFiltration = computed(() => {
+  const selectedHouses = houses.value.filter((house) => {
+    return house.name.includes(houseName.value);
+  });
+
+  return selectedHouses;
+});
+
 onMounted(async () => {
   await setHeroes("houses");
+  houses.value = [...selectedHeroes.value];
 });
 </script>
 

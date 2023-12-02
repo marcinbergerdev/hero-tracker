@@ -34,10 +34,10 @@ import { Members } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { ref, reactive, onMounted, defineAsyncComponent } from "vue";
+import { reactive, onMounted, defineAsyncComponent } from "vue";
 
 const route = useRoute();
-const path = ref(route.params.id);
+const path = route.params.id;
 
 const heroes = useGetHeroes();
 const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
@@ -46,7 +46,7 @@ const { setHeroes } = heroes;
 let membersOfHouse = reactive<Members>({ name: "", members: [] });
 
 onMounted(async () => {
-  await setHeroes(`house/${path.value}`);
+  await setHeroes(`house/${path}`);
 
   membersOfHouse.name = selectedHeroes.value[0].name;
   membersOfHouse.members = selectedHeroes.value[0].members;
@@ -85,8 +85,7 @@ onMounted(async () => {
 }
 
 .hero-list {
-  display: flex;
-  align-items: center;
+  @include flex-center;
   flex-direction: column;
   gap: 2rem 0;
   margin: 0 auto;

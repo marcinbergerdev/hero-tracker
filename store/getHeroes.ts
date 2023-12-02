@@ -14,8 +14,6 @@ export const useGetHeroes = defineStore("getHeroes", () => {
    };
 
    const setHeroes = async (urlPath: string ) => {
-      console.log(urlPath, 'api');
-
       try {
          isLoadingSpinner.value = true;
 
@@ -24,7 +22,6 @@ export const useGetHeroes = defineStore("getHeroes", () => {
 
          const data = await response.json();
 
-         console.log(data, 'api');
          selectedHeroes.value = data;
 
       } catch (error: any) {
