@@ -1,5 +1,5 @@
 <template>
-  <BaseSearchList>
+  <SearchList>
     <template #header>
       <input
         class="form-box__input"
@@ -25,11 +25,11 @@
         >
       </li>
     </template>
-  </BaseSearchList>
+  </SearchList>
 </template>
 
 <script setup lang="ts">
-const BaseSearchList = defineAsyncComponent(() => import("../cards/BaseSearchList.vue"));
+const SearchList = defineAsyncComponent(() => import("../layouts/SearchList.vue"));
 import { Person } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { storeToRefs } from "pinia";

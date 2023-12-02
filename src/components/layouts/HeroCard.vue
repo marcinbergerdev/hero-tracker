@@ -34,8 +34,8 @@ const LoadingSpinner = defineAsyncComponent(
 );
 const HouseCard = defineAsyncComponent(() => import("../content/HouseCard.vue"));
 const PersonCard = defineAsyncComponent(() => import("../content/PersonCard.vue"));
-import { Members, Character } from "../../../types/members.ts";
-import { useGetHeroes } from "../../../store/getHeroes.ts";
+import { Members, Character } from "../../../types/members";
+import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { reactive, onMounted, defineAsyncComponent } from "vue";

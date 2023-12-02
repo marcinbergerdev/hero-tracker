@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const HousesList = () => import("./components/content/HousesList.vue");
 const PersonsList = () => import("./components/content/PersonsList.vue");
 const QuotesList = () => import("./components/content/QuotesList.vue");
-const BaseHeroCard = () => import("./components/cards/BaseHeroCard.vue");
+const HeroCard = () => import("./components/layouts/HeroCard.vue");
 
 export default createRouter({
    history: createWebHistory(),
@@ -20,7 +20,7 @@ export default createRouter({
       {
          name: "house",
          path: "/houses/:id",
-         component: BaseHeroCard,
+         component: HeroCard,
          props: true,
       },
       {
@@ -31,7 +31,7 @@ export default createRouter({
       {
          name: "character",
          path: "/persons/:id",
-         component: BaseHeroCard,
+         component: HeroCard,
          props: true,
       },
       {
