@@ -1,10 +1,11 @@
 <template>
   <SearchList>
-    <template #header>
+    <template #search>
       <input
         class="form-box__input"
         type="text"
         v-model="houseName"
+        @input="elementFilteringByNameOnMobile"
         placeholder="Search house..."
       />
     </template>
@@ -12,7 +13,7 @@
     <template #default>
       <li
         class="house-list-box"
-        v-for="(house, id) in selectedHousesAfterFiltration"
+        v-for="(house, id) in filteredHousesOnDesktop || filteredHousesOnMobile"
         :key="id"
       >
         <BaseButton
@@ -32,23 +33,40 @@
 const SearchList = defineAsyncComponent(() => import("../layouts/SearchList.vue"));
 import { Person } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
+import { useUserWindowSize } from "../../../store/userWindowSize";
 import { storeToRefs } from "pinia";
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 
-const houseName = ref("");
+const width = useUserWindowSize();
+
 const houses = ref<Person[]>([]);
+const houseName = ref("");
+const filteredHousesOnMobile = ref<Person[]>([]);
 
 const heroes = useGetHeroes();
 const { selectedHeroes } = storeToRefs(heroes);
 const { setHeroes } = heroes;
 
-const selectedHousesAfterFiltration = computed(() => {
-  const selectedHouses = houses.value.filter((house) => {
-    return house.name.toLocaleLowerCase().includes(houseName.value);
-  });
-
+const filteredHousesOnDesktop = computed(() => {
+  const selectedHouses = elementFiltering();
   return selectedHouses;
 });
+
+const elementFilteringByNameOnMobile = (e: Event) => {
+  houseName.value = (e.target as HTMLFormElement).value;
+
+  if (width.isMobile) {
+    const selectedHouses = elementFiltering();
+    filteredHousesOnMobile.value = [...selectedHouses];
+  }
+};
+
+const elementFiltering = () => {
+  const selectedHouses = houses.value.filter((house) =>
+    house.name.toLowerCase().includes(houseName.value.toLowerCase())
+  );
+  return selectedHouses;
+};
 
 onMounted(async () => {
   await setHeroes("houses");

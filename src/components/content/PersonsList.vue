@@ -1,10 +1,11 @@
 <template>
   <SearchList>
-    <template #header>
+    <template #search>
       <input
-        class="form-box__input"
+        class="form-input"
         type="text"
         v-model="personName"
+        @input="elementFilteringByNameOnMobile"
         placeholder="Search person..."
       />
     </template>
@@ -12,7 +13,7 @@
     <template #default>
       <li
         class="person-list-box"
-        v-for="(person, id) in selectedPersonsAfterFiltration"
+        v-for="(person, id) in filteredHousesOnDesktop || filteredPersonsOnDesktop"
         :key="id"
       >
         <BaseButton
@@ -30,43 +31,59 @@
 
 <script setup lang="ts">
 const SearchList = defineAsyncComponent(() => import("../layouts/SearchList.vue"));
-import { Person } from "../../../types/members.ts";
+import { Character } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
+import { useUserWindowSize } from "../../../store/userWindowSize";
 import { storeToRefs } from "pinia";
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 
+const width = useUserWindowSize();
+
 const personName = ref("");
-const persons = ref<Person[]>([]);
+const persons = ref<Character[]>([]);
+const filteredPersonsOnDesktop = ref<Character[]>([]);
 
 const heroes = useGetHeroes();
 const { selectedHeroes } = storeToRefs(heroes);
 const { setHeroes } = heroes;
 
-const selectedPersonsAfterFiltration = computed(() => {
-  const selectedPersons = persons.value.filter((person) => {
-    return person.name.toLocaleLowerCase().includes(personName.value);
-  });
-
-  return selectedPersons;
+const filteredHousesOnDesktop = computed(() => {
+  const selectedHouses = elementFiltering();
+  return selectedHouses;
 });
 
+const elementFilteringByNameOnMobile = (e: Event) => {
+  personName.value = (e.target as HTMLFormElement).value;
+
+  if (width.isMobile) {
+    const selectedHouses = elementFiltering();
+    filteredPersonsOnDesktop.value = [...selectedHouses];
+  }
+};
+
+const elementFiltering = () => {
+  const selectedHouses = persons.value.filter((person) =>
+    person.name.toLowerCase().includes(personName.value.toLowerCase())
+  );
+  return selectedHouses;
+};
+
 onMounted(async () => {
-  await setHeroes("characters");
+  const urlKey: string = "characters";
+  await setHeroes(urlKey);
   persons.value = [...selectedHeroes.value];
 });
 </script>
 
 <style scoped lang="scss">
-.form-box {
-  &__input {
-    padding: 1rem;
-    width: 100%;
-    color: var(--text-clr);
-    background-color: transparent;
-    border-radius: 1rem;
-    border: 0;
-    outline: 2px solid var(--text-clr);
-  }
+.form-input {
+  padding: 1rem;
+  width: 100%;
+  color: var(--text-clr);
+  background-color: transparent;
+  border-radius: 1rem;
+  border: 0;
+  outline: 2px solid var(--text-clr);
 }
 
 .person-list-box {

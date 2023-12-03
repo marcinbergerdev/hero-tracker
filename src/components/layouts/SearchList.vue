@@ -1,17 +1,17 @@
 <template>
-  <div class="houses-wrapper">
-    <header class="houses-header">
-      <form class="houses-form">
+  <div class="search-wrapper">
+    <header class="search-header">
+      <form class="search-form" @submit.prevent>
         <div class="form-box">
-          <slot name="header"></slot>
+          <slot name="search"></slot>
         </div>
       </form>
     </header>
 
     <LoadingSpinner v-if="isLoadingSpinner" />
 
-    <section class="houses-list-container" v-else>
-      <ul class="houses-list">
+    <section class="search-list-container" v-else>
+      <ul class="search-list">
         <slot></slot>
       </ul>
     </section>
@@ -32,30 +32,30 @@ const { isLoadingSpinner } = storeToRefs(heroes);
 
 <style scoped lang="scss">
 
-.houses-wrapper {
+.search-wrapper {
   position: relative;
   margin: 0 auto;
   width: min(70rem, 90%);
   height: inherit;
 }
 
-.houses-header {
+.search-header {
   @include flex-center;
   justify-content: center;
   padding: 7rem 0;
 }
 
-.houses-form,
+.search-form,
 .form-box {
   width: 100%;
 }
-.houses-list-container {
+.search-list-container {
   padding: 3rem 0;
   height: calc(100vh - 17.5rem - 6rem);
   overflow: auto;
 }
 
-.houses-list {
+.search-list {
   @include flex-center;
   flex-direction: column;
   justify-content: center;
