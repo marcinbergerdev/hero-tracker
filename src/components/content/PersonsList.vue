@@ -87,7 +87,7 @@ onMounted(async () => {
 }
 
 .person-list-box {
-  width: min(30rem, 100%);
+  width: min(25rem, 100%);
   text-align: center;
   &__link {
     display: block;

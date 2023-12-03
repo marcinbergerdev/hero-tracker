@@ -61,6 +61,7 @@ const { isLoadingSpinner } = storeToRefs(heroes);
   justify-content: center;
   gap: 3rem 0;
   margin: 0 auto;
+  padding: 0 3rem;
 
   @media (width >= 768px) {
     justify-content: space-between;
