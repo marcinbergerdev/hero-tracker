@@ -4,10 +4,9 @@
 
     <div class="hero-container" v-else>
       <header class="hero-header">
-        <h1 class="hero-header__house-name" v-if="routeName === 'house'">
-          {{ membersOfHouse.name }}
+        <h1 class="hero-header__house-name">
+          {{ selectHouse }}
         </h1>
-        <h1 class="hero-header__person-name" v-else>{{ personOfHouse.name }}</h1>
       </header>
 
       <HouseCard
@@ -38,7 +37,7 @@ import { Members, Character } from "../../../types/members";
 import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { reactive, onMounted, defineAsyncComponent } from "vue";
+import { reactive, computed, onMounted, defineAsyncComponent } from "vue";
 
 const route = useRoute();
 const routeName = String(route.name);
@@ -56,12 +55,19 @@ let personOfHouse = reactive<Character>({
   slug: "",
 });
 
-const setHouses = () => {
+const selectHouse = computed(() => {
+  if (routeName === "house") {
+    return membersOfHouse.name;
+  }
+  return personOfHouse.house.name;
+});
+
+const setMembersOfHouse = () => {
   membersOfHouse.name = selectedHeroes.value[0].name;
   membersOfHouse.members = selectedHeroes.value[0].members;
 };
 
-const setPersons = () => {
+const setPersonDetails = () => {
   personOfHouse.house = selectedHeroes.value[0].house;
   personOfHouse.name = selectedHeroes.value[0].name;
   personOfHouse.quotes = selectedHeroes.value[0].quotes;
@@ -71,9 +77,9 @@ const setPersons = () => {
 onMounted(async () => {
   await setHeroes(`${String(routeName)}/${path}`);
   if (routeName === "house") {
-    setHouses();
+    setMembersOfHouse();
   } else {
-    setPersons();
+    setPersonDetails();
   }
 });
 </script>
@@ -98,16 +104,10 @@ onMounted(async () => {
   flex: 1;
   margin: 3rem 0;
 
-  &__house-name,
-  &__person-name {
+  &__house-name{
     text-align: center;
     font-size: 3.5rem;
     font-weight: 400;
-  }
-
-  &__person-name {
-    padding: 2rem;
-    border: 2px solid var(--header-bg);
   }
 }
 
