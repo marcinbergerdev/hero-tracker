@@ -13,7 +13,7 @@
         >
       </li>
       <li class="hero-list-box" v-for="(quote, id) in quotes" :key="id">
-        <h2>{{ quote }}</h2>
+        <p class="hero-list-box__quote">{{ quote }}</p>
       </li>
     </ul>
   </section>
@@ -23,7 +23,7 @@
 import { Character } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
-import { ref, toRefs, watchEffect} from "vue";
+import { ref, toRefs, watchEffect } from "vue";
 
 const props = defineProps<{
   person: Character;
@@ -36,7 +36,6 @@ const { selectedQuotes } = storeToRefs(heroes);
 const { getQuotes } = heroes;
 const quotes = ref<string[]>([]);
 
-
 const setAmountOfQuotes = () => {
   const amountOfQuotesFromPerson = person.value.quotes.length;
   selectRandomQuotes(amountOfQuotesFromPerson);
@@ -47,7 +46,7 @@ const selectRandomQuotes = async (amount: number) => {
   quotes.value = [];
 
   const minimumAmount = 1;
-  if(amount <= minimumAmount) return quotes.value.push(selectedQuotes.value.sentence);
+  if (amount <= minimumAmount) return quotes.value.push(selectedQuotes.value.sentence);
   const newQuotes = [...selectedQuotes.value];
   newQuotes.forEach(({ sentence }) => {
     quotes.value.push(sentence);
@@ -100,14 +99,19 @@ watchEffect(async () => {
 }
 
 .hero-list-box {
-  gap: 0 2rem;
+  margin-top: 3rem;
   padding: 1rem;
   width: 100%;
   border: 2px solid var(--header-bg);
   border-radius: 1rem;
 
   &__slug {
-    font-size: 1.5rem;
+    font-size: 2rem;
+  }
+
+  &__quote {
+    min-height: 4.5rem;
+    font-size: 1.3rem;
   }
 }
 </style>

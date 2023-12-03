@@ -31,7 +31,6 @@ const { isLoadingSpinner } = storeToRefs(heroes);
 </script>
 
 <style scoped lang="scss">
-
 .search-wrapper {
   position: relative;
   margin: 0 auto;
@@ -53,6 +52,17 @@ const { isLoadingSpinner } = storeToRefs(heroes);
   padding: 3rem 0;
   height: calc(100vh - 17.5rem - 6rem);
   overflow: auto;
+}
+
+.search-list-container {
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: var(--content-bg);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--header-bg);
+  }
 }
 
 .search-list {

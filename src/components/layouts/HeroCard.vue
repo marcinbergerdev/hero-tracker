@@ -4,7 +4,7 @@
 
     <div class="hero-container" v-else>
       <header class="hero-header">
-        <h1 class="hero-header__house-name">
+        <h1 class="hero-header__name">
           {{ selectHouse }}
         </h1>
       </header>
@@ -110,7 +110,8 @@ onMounted(() => {
   flex: 1;
   margin: 3rem 0;
 
-  &__house-name {
+  &__name {
+    padding: 0 2rem;
     text-align: center;
     font-size: 3.5rem;
     font-weight: 400;
