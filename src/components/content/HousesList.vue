@@ -39,7 +39,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 
 const width = useUserWindowSize();
-const route = useRoute()
+const route = useRoute();
 
 const houses = ref<Person[]>([]);
 const houseName = ref("");
@@ -65,7 +65,7 @@ const elementFilteringByNameOnMobile = (e: Event) => {
 
 const elementFiltering = () => {
   const selectedHouses = houses.value.filter((house) =>
-    house.name.toLowerCase().includes(houseName.value.toLowerCase())
+    house.name.toLowerCase().includes(houseName.value.trim().toLowerCase())
   );
   return selectedHouses;
 };

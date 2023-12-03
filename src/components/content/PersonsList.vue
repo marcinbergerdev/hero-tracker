@@ -65,7 +65,7 @@ const elementFilteringByNameOnMobile = (e: Event) => {
 
 const elementFiltering = () => {
   const selectedHouses = persons.value.filter((person) =>
-    person.name.toLowerCase().includes(personName.value.toLowerCase())
+    person.name.toLowerCase().includes(personName.value.trim().toLowerCase())
   );
   return selectedHouses;
 };
