@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { useUserWindowSize } from "../store/userWindowSize";
+import { useMobileMenuVisibility } from "../store/mobileMenuVisibility";
 
 const HousesList = () => import("./components/content/HousesList.vue");
 const PersonsList = () => import("./components/content/PersonsList.vue");
 const QuotesList = () => import("./components/content/QuotesList.vue");
 const HeroCard = () => import("./components/layouts/HeroCard.vue");
 
-export default createRouter({
+export const router = createRouter({
    history: createWebHistory(),
    routes: [
       {
@@ -46,4 +48,10 @@ export default createRouter({
          props: true,
       },
    ],
+});
+
+router.beforeEach((_, __) => {
+   const width = useUserWindowSize();
+   const menu = useMobileMenuVisibility();
+   if (width.isMobile) menu.closeMenu();
 });
