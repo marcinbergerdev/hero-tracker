@@ -37,7 +37,7 @@ import { Members, Character } from "../../../types/members";
 import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { reactive, computed, onMounted, defineAsyncComponent } from "vue";
+import { reactive, ref, computed, watchEffect, defineAsyncComponent } from "vue";
 
 const route = useRoute();
 const routeName = String(route.name);
@@ -46,6 +46,9 @@ const path = route.params.id;
 const heroes = useGetHeroes();
 const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
 const { setHeroes } = heroes;
+
+const test1 = ref("");
+const test2 = ref("");
 
 let membersOfHouse = reactive<Members>({ name: "", members: [] });
 let personOfHouse = reactive<Character>({
@@ -57,8 +60,10 @@ let personOfHouse = reactive<Character>({
 
 const selectHouse = computed(() => {
   if (routeName === "house") {
+    test1.value = `${routeName}/${path}`;
     return membersOfHouse.name;
   }
+  test2.value = `${routeName}/${path}`;
   return personOfHouse.house;
 });
 
@@ -75,8 +80,9 @@ const setPersonDetails = () => {
   personOfHouse.slug = selectedHero.slug;
 };
 
-onMounted(async () => {
-  await setHeroes(`${String(routeName)}/${path}`);
+watchEffect(async () => {
+  await setHeroes(`${routeName}/${path}`);
+
   if (routeName === "house") {
     setMembersOfHouse();
   } else {

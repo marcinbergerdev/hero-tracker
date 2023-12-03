@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 export const useGetHeroes = defineStore("getHeroes", () => {
    const selectedHeroes = ref();
+   const selectedQuotes = ref();
    const isLoadingSpinner = ref<boolean>(false);
    const errorMessage = ref<string>("");
 
@@ -31,5 +32,20 @@ export const useGetHeroes = defineStore("getHeroes", () => {
       }
    };
 
-   return { selectedHeroes, isLoadingSpinner, errorMessage, setHeroes};
+   const getQuotes = async (urlPath: string ) => {
+      try {
+         const response = await fetch(`https://api.gameofthronesquotes.xyz/v1/${urlPath}`);
+         dataValidation(response);
+
+         const data = await response.json();
+
+         selectedQuotes.value = data;
+
+      } catch (error: any) {
+         errorMessage.value = error.message;
+
+      }
+   };
+
+   return { selectedHeroes, selectedQuotes, isLoadingSpinner, errorMessage, setHeroes, getQuotes};
 });

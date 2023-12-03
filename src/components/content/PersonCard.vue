@@ -5,12 +5,15 @@
     <ul class="hero-list quotes">
       <li class="quotes-box">
         <p class="quotes-box__title">Quotes:</p>
-        <BaseButton mode="border" class="quotes-box__change-button"
-          @click="setNewQuotes">Change quotes</BaseButton
+        <BaseButton
+          mode="border"
+          class="quotes-box__change-button"
+          @click="setAmountOfQuotes"
+          >Change quotes</BaseButton
         >
       </li>
-      <li class="hero-list-box" v-for="(member, id) in person.quotes" :key="id">
-        <h2>{{ member }}</h2>
+      <li class="hero-list-box" v-for="(quote, id) in quotes" :key="id">
+        <h2>{{ quote }}</h2>
       </li>
     </ul>
   </section>
@@ -18,16 +21,42 @@
 
 <script setup lang="ts">
 import { Character } from "../../../types/members.ts";
+import { useGetHeroes } from "../../../store/getHeroes";
+import { storeToRefs } from "pinia";
+import { ref, toRefs, onMounted } from "vue";
 
-defineProps<{
+const heroes = useGetHeroes();
+const { selectedQuotes } = storeToRefs(heroes);
+const { getQuotes } = heroes;
+
+const props = defineProps<{
   person: Character;
   view: string;
 }>();
+const { person } = toRefs(props);
 
+const quotes = ref<string[]>([]);
 
-const setNewQuotes = () => {
-  
-}
+const setAmountOfQuotes = () => {
+  const amountOfQuotesFromPerson = person.value.quotes.length;
+  console.log(amountOfQuotesFromPerson);
+  selectRandomQuotes(amountOfQuotesFromPerson);
+};
+
+const selectRandomQuotes = async (amount: number) => {
+  await getQuotes(`random/${amount}`);
+  quotes.value = [];
+
+  if(amount <= 1) return quotes.value.push(selectedQuotes.value.sentence);
+  const newQuotes = [...selectedQuotes.value];
+  newQuotes.forEach(({ sentence }) => {
+    quotes.value.push(sentence);
+  });
+};
+
+onMounted(() => {
+  quotes.value = [...person.value.quotes];
+});
 </script>
 
 <style scoped lang="scss">
@@ -45,7 +74,7 @@ const setNewQuotes = () => {
 
 .hero-list,
 .hero-list-box,
-.quotes-box  {
+.quotes-box {
   @include flex-center;
 }
 .hero-list {
