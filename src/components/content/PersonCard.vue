@@ -23,11 +23,7 @@
 import { Character } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
-import { ref, toRefs, onMounted } from "vue";
-
-const heroes = useGetHeroes();
-const { selectedQuotes } = storeToRefs(heroes);
-const { getQuotes } = heroes;
+import { ref, toRefs, watchEffect} from "vue";
 
 const props = defineProps<{
   person: Character;
@@ -35,11 +31,14 @@ const props = defineProps<{
 }>();
 const { person } = toRefs(props);
 
+const heroes = useGetHeroes();
+const { selectedQuotes } = storeToRefs(heroes);
+const { getQuotes } = heroes;
 const quotes = ref<string[]>([]);
+
 
 const setAmountOfQuotes = () => {
   const amountOfQuotesFromPerson = person.value.quotes.length;
-  console.log(amountOfQuotesFromPerson);
   selectRandomQuotes(amountOfQuotesFromPerson);
 };
 
@@ -47,14 +46,15 @@ const selectRandomQuotes = async (amount: number) => {
   await getQuotes(`random/${amount}`);
   quotes.value = [];
 
-  if(amount <= 1) return quotes.value.push(selectedQuotes.value.sentence);
+  const minimumAmount = 1;
+  if(amount <= minimumAmount) return quotes.value.push(selectedQuotes.value.sentence);
   const newQuotes = [...selectedQuotes.value];
   newQuotes.forEach(({ sentence }) => {
     quotes.value.push(sentence);
   });
 };
 
-onMounted(() => {
+watchEffect(async () => {
   quotes.value = [...person.value.quotes];
 });
 </script>

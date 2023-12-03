@@ -1,13 +1,85 @@
 <template>
-  <div>
-    quotes
-  </div>
+  <section class="random-quotes-container">
+    <BaseButton mode="border" class="change-random-quotes" @click="setRandomQuotes"
+      >change quotes</BaseButton
+    >
+
+    <ul class="random-quotes-list">
+      <li class="quotes-box" v-for="(quote, id) in randomQuotes" :key="id">
+        <p class="quotes-box__sentence">{{ quote.sentence }}</p>
+      </li>
+    </ul>
+  </section>
 </template>
 
 <script setup lang="ts">
+import { useGetHeroes } from "../../../store/getHeroes.ts";
+import { storeToRefs } from "pinia";
+import { ref, onMounted } from "vue";
 
+const randomQuotes = ref<any>([]);
+
+const heroes = useGetHeroes();
+const { selectedQuotes } = storeToRefs(heroes);
+const { getQuotes } = heroes;
+
+const setRandomQuotes = () => {
+  getRandomQuotes();
+};
+
+const getRandomQuotes = async () => {
+  const urlPath = "random/5";
+  await getQuotes(urlPath);
+  randomQuotes.value = [...selectedQuotes.value];
+};
+
+onMounted(() => {
+  getRandomQuotes();
+});
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.random-quotes-container,
+.random-quotes-list {
+  @include flex-center;
+  flex-direction: column;
+}
 
+.random-quotes-container {
+  height: inherit;
+}
+
+.change-random-quotes {
+  padding: 0.5rem 1rem;
+  margin-top: 3rem;
+}
+.random-quotes-list {
+  flex: 1;
+  gap: 5rem 0;
+  margin: 10rem 0 1rem 0;
+  width: min(100rem, 90%);
+  overflow: auto;
+
+  @media (width >= 768px) {
+    flex-flow: wrap row;
+    gap: 3rem 2rem;
+  }
+}
+
+.quotes-box {
+  padding: 1rem;
+  width: 100%;
+  text-align: start;
+  border: 2px solid var(--header-bg);
+  border-radius: 1rem;
+
+  @media (width >= 768px) {
+    width: 40%;
+    min-height: 7rem;
+  }
+  &__sentence {
+    font-size: 1.5rem;
+    color: var(--text-clr);
+  }
+}
 </style>
