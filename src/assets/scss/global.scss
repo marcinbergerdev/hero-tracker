@@ -20,6 +20,9 @@ ul {
 a,
 button {
    color: var(--black);
+   @media (width >= 768px) {
+      cursor: pointer;
+   }
 }
 
 a {

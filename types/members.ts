@@ -14,7 +14,7 @@ export type House = {
 };
 
 export type Character = {
-   house: House;
+   house: string;
    name: string;
    quotes: string[];
    slug: string;

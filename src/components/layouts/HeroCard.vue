@@ -17,7 +17,7 @@
       <PersonCard view="person" v-else :person="personOfHouse"></PersonCard>
 
       <BaseButton
-        mode="filled"
+        mode="border"
         class="backButton"
         :isLink="true"
         :to="`/${routeName === 'house' ? 'houses' : 'persons'}`"
@@ -49,7 +49,7 @@ const { setHeroes } = heroes;
 
 let membersOfHouse = reactive<Members>({ name: "", members: [] });
 let personOfHouse = reactive<Character>({
-  house: { slug: "", name: "" },
+  house: "",
   name: "",
   quotes: [],
   slug: "",
@@ -59,7 +59,7 @@ const selectHouse = computed(() => {
   if (routeName === "house") {
     return membersOfHouse.name;
   }
-  return personOfHouse.house.name;
+  return personOfHouse.house;
 });
 
 const setMembersOfHouse = () => {
@@ -68,10 +68,11 @@ const setMembersOfHouse = () => {
 };
 
 const setPersonDetails = () => {
-  personOfHouse.house = selectedHeroes.value[0].house;
-  personOfHouse.name = selectedHeroes.value[0].name;
-  personOfHouse.quotes = selectedHeroes.value[0].quotes;
-  personOfHouse.slug = selectedHeroes.value[0].slug;
+  const selectedHero = selectedHeroes.value[0];
+  personOfHouse.house = selectedHero.house?.name || "No house";
+  personOfHouse.name = selectedHero.name;
+  personOfHouse.quotes = selectedHero.quotes;
+  personOfHouse.slug = selectedHero.slug;
 };
 
 onMounted(async () => {
@@ -104,7 +105,7 @@ onMounted(async () => {
   flex: 1;
   margin: 3rem 0;
 
-  &__house-name{
+  &__house-name {
     text-align: center;
     font-size: 3.5rem;
     font-weight: 400;
@@ -148,17 +149,5 @@ onMounted(async () => {
 .backButton {
   padding: 0.5rem 0;
   width: min(10rem, 90%);
-  text-align: center;
-  font-size: 1.7rem;
-
-  @media (width >= 768px) {
-    background-color: transparent;
-    border: 2px solid var(--header-bg);
-    transition: background-color 0.15s ease-in-out;
-    &:hover {
-      background-color: var(--header-bg);
-      transition: background-color 0.15s ease-in-out;
-    }
-  }
 }
 </style>

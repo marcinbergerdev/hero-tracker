@@ -3,8 +3,11 @@
     <h3 class="person-house-name">{{ person.name }}</h3>
 
     <ul class="hero-list quotes">
-      <li class="quotes-title">
-        <p>Quotes:</p>
+      <li class="quotes-box">
+        <p class="quotes-box__title">Quotes:</p>
+        <BaseButton mode="border" class="quotes-box__change-button"
+          @click="setNewQuotes">Change quotes</BaseButton
+        >
       </li>
       <li class="hero-list-box" v-for="(member, id) in person.quotes" :key="id">
         <h2>{{ member }}</h2>
@@ -20,6 +23,11 @@ defineProps<{
   person: Character;
   view: string;
 }>();
+
+
+const setNewQuotes = () => {
+  
+}
 </script>
 
 <style scoped lang="scss">
@@ -36,7 +44,8 @@ defineProps<{
 }
 
 .hero-list,
-.hero-list-box {
+.hero-list-box,
+.quotes-box  {
   @include flex-center;
 }
 .hero-list {
@@ -50,8 +59,15 @@ defineProps<{
   text-align: start;
   padding: 6rem 0;
 }
-.quotes-title {
-  font-size: 2rem;
+.quotes-box {
+  justify-content: space-between;
+  width: 100%;
+  &__title {
+    font-size: 2rem;
+  }
+  &__change-button {
+    padding: 0.8rem 1.5rem;
+  }
 }
 
 .hero-list-box {
