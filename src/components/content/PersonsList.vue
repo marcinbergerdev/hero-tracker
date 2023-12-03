@@ -34,10 +34,12 @@ const SearchList = defineAsyncComponent(() => import("../layouts/SearchList.vue"
 import { Character } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { useUserWindowSize } from "../../../store/userWindowSize";
+import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 
 const width = useUserWindowSize();
+const route = useRoute()
 
 const personName = ref("");
 const persons = ref<Character[]>([]);
@@ -69,8 +71,8 @@ const elementFiltering = () => {
 };
 
 onMounted(async () => {
-  const urlKey: string = "characters";
-  await setHeroes(urlKey);
+  const routePath = String(route.name);
+  await setHeroes(routePath);
   persons.value = [...selectedHeroes.value];
 });
 </script>

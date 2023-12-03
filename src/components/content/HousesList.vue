@@ -35,9 +35,11 @@ import { Person } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { useUserWindowSize } from "../../../store/userWindowSize";
 import { storeToRefs } from "pinia";
+import { useRoute } from "vue-router";
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 
 const width = useUserWindowSize();
+const route = useRoute()
 
 const houses = ref<Person[]>([]);
 const houseName = ref("");
@@ -69,7 +71,8 @@ const elementFiltering = () => {
 };
 
 onMounted(async () => {
-  await setHeroes("houses");
+  const routePath = String(route.name);
+  await setHeroes(routePath);
   houses.value = [...selectedHeroes.value];
 });
 </script>

@@ -26,7 +26,7 @@ export const router = createRouter({
          props: true,
       },
       {
-         name: "persons",
+         name: "characters",
          path: "/persons",
          component: PersonsList,
       },
