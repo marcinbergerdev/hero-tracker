@@ -26,7 +26,7 @@ import { storeToRefs } from "pinia";
 import { ref, computed, onMounted, toRefs } from "vue";
 
 const props = defineProps<{
-  person: Character;
+  person?: Character;
   view: string;
 }>();
 const { person } = toRefs(props);
@@ -37,13 +37,16 @@ const { getQuotes } = heroes;
 const quotes = ref<string[]>([]);
 
 const setPersonName = computed<string>(() => {
-  const { name }: { name: string } = person.value;
-  return name;
+  if (person.value) {
+    const { name }: { name: string } = person.value;
+    return name;
+  }
+  return "No name";
 });
 
 const setAmountOfQuotes = () => {
-  const amountOfQuotesFromPerson = person.value.quotes.length;
-  selectRandomQuotes(amountOfQuotesFromPerson);
+  const amountOfQuotesFromPerson = person.value?.quotes.length;
+  selectRandomQuotes(amountOfQuotesFromPerson || 1);
 };
 
 const selectRandomQuotes = async (amountOfQuotes: number) => {
@@ -69,7 +72,7 @@ const assigningRandomQuotes = (amountOfQuotes: number) => {
 };
 
 onMounted(() => {
-  quotes.value = [...person.value.quotes];
+  if (person.value) quotes.value = [...person.value.quotes];
 });
 </script>
 

@@ -3,8 +3,8 @@ import { ref } from "vue";
 import { Character, House , Quote} from "../types/members";
 
 export const useGetHeroes = defineStore("getHeroes", () => {
-   const selectedHeroes = ref<House | Character>();
-   const selectedQuotes = ref<Quote>();
+   const selectedHeroes = ref<House | Character | null>(null);
+   const selectedQuotes = ref<Quote | null>(null);
    const isLoadingSpinner = ref<boolean>(false);
    const errorMessage = ref<string>("");
 
@@ -15,8 +15,6 @@ export const useGetHeroes = defineStore("getHeroes", () => {
    };
 
    const setHeroes = async (urlPath: string) => {
-
-      console.log(urlPath);
       try {
          isLoadingSpinner.value = true;
          

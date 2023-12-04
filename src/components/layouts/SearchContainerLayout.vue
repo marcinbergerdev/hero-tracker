@@ -11,9 +11,9 @@
     <LoadingSpinner v-if="isLoadingSpinner" />
     <p class="error-message" v-else-if="!!errorMessage">{{ errorMessage }}</p>
     <section class="search-list-container" v-else>
-      <ul class="search-list">
+      <TransitionGroup name="list" tag="ul" class="search-list">
         <slot></slot>
-      </ul>
+      </TransitionGroup>
     </section>
   </div>
 </template>
@@ -26,7 +26,7 @@ import { storeToRefs } from "pinia";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { defineAsyncComponent } from "vue";
 const heroes = useGetHeroes();
-const { isLoadingSpinner , errorMessage} = storeToRefs(heroes);
+const { isLoadingSpinner, errorMessage } = storeToRefs(heroes);
 </script>
 
 <style scoped lang="scss">

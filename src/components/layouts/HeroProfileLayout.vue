@@ -33,7 +33,7 @@ const LoadingSpinner = defineAsyncComponent(
 );
 const HouseCard = defineAsyncComponent(() => import("../content/HouseCard.vue"));
 const PersonCard = defineAsyncComponent(() => import("../content/PersonCard.vue"));
-import { Character, Person, House } from "../../../types/members";
+import { Character, Person } from "../../../types/members";
 import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
@@ -47,21 +47,26 @@ const heroes = useGetHeroes();
 const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
 const { setHeroes } = heroes;
 
-const setHouseName = computed<string>(() => {
-  const { house, name }: { house: House; name: string } = selectedHeroes.value[0];
-
-  if (routeName === "house") return name;
-  return house?.name || "No house";
+const setHouseName = computed(() => {
+  if (selectedHeroes.value && Array.isArray(selectedHeroes.value)) {
+    const { house, name } = selectedHeroes.value[0];
+    if (routeName === "house") return name;
+    return house?.name || "No house";
+  }
 });
 
-const setHouseMembers = computed<Person[]>(() => {
-  const { members }: { members: Person[] } = selectedHeroes.value[0];
-  return members;
+const setHouseMembers = computed(() => {
+  if (selectedHeroes.value && Array.isArray(selectedHeroes.value)) {
+    const { members }: { members: Person[] } = selectedHeroes.value[0];
+    return members;
+  }
 });
 
-const setPersonDetails = computed<Character>(() => {
-  const person: Character = selectedHeroes.value[0];
-  return person;
+const setPersonDetails = computed<Character | undefined>(() => {
+  if (selectedHeroes.value && Array.isArray(selectedHeroes.value)) {
+    const person: Character = selectedHeroes.value[0];
+    return person;
+  }
 });
 
 watchEffect(async () => {

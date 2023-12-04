@@ -5,11 +5,12 @@
     >
 
     <p class="error-message" v-if="!!errorMessage">{{ errorMessage }}</p>
-    <ul class="random-quotes-list" v-else>
+    
+    <TransitionGroup name="list" tag="ul" class="random-quotes-list" v-else>
       <li class="quotes-box" v-for="(quote, id) in randomQuotes" :key="id">
         <p class="quotes-box__sentence">{{ quote.sentence }}</p>
       </li>
-    </ul>
+    </TransitionGroup>
   </section>
 </template>
 
@@ -20,7 +21,7 @@ import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
 
 const heroes = useGetHeroes();
-const { selectedQuotes , errorMessage} = storeToRefs(heroes);
+const { selectedQuotes, errorMessage } = storeToRefs(heroes);
 const { getQuotes } = heroes;
 
 const randomQuotes = ref<Quote[]>([]);
@@ -34,7 +35,7 @@ const getRandomQuotes = async () => {
   await getQuotes(urlPath);
 
   if (selectedQuotes.value && Array.isArray(selectedQuotes.value))
-    return randomQuotes.value = [...selectedQuotes.value];
+    return (randomQuotes.value = [...selectedQuotes.value]);
 };
 
 onMounted(() => {

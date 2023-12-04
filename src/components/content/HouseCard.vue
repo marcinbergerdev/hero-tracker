@@ -13,7 +13,7 @@
 import { Person } from "../../../types/members";
 
 defineProps<{
-  members: Person[];
+  members?: Person[];
   view: string;
 }>();
 </script>
