@@ -4,7 +4,8 @@
       >change quotes</BaseButton
     >
 
-    <ul class="random-quotes-list">
+    <p class="error-message" v-if="!!errorMessage">{{ errorMessage }}</p>
+    <ul class="random-quotes-list" v-else>
       <li class="quotes-box" v-for="(quote, id) in randomQuotes" :key="id">
         <p class="quotes-box__sentence">{{ quote.sentence }}</p>
       </li>
@@ -19,7 +20,7 @@ import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
 
 const heroes = useGetHeroes();
-const { selectedQuotes } = storeToRefs(heroes);
+const { selectedQuotes , errorMessage} = storeToRefs(heroes);
 const { getQuotes } = heroes;
 
 const randomQuotes = ref<Quote[]>([]);

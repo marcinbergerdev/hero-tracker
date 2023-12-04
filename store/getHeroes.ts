@@ -15,9 +15,11 @@ export const useGetHeroes = defineStore("getHeroes", () => {
    };
 
    const setHeroes = async (urlPath: string) => {
+
+      console.log(urlPath);
       try {
          isLoadingSpinner.value = true;
-
+         
          const response = await fetch(
             `https://api.gameofthronesquotes.xyz/v1/${urlPath}`
          );
@@ -30,6 +32,7 @@ export const useGetHeroes = defineStore("getHeroes", () => {
          errorMessage.value = error.message;
       } finally {
          isLoadingSpinner.value = false;
+         errorMessage.value = '';
       }
    };
 

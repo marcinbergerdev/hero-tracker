@@ -12,3 +12,13 @@
 .form-box {
    width: 100%;
 }
+
+.error-message {
+   text-align: center;
+   font-size: 2rem;
+   color: var(--text-clr);
+
+   @media (width >= 768px) {
+      margin-top: 10rem;
+   }
+}

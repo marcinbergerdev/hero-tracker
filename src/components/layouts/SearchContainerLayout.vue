@@ -9,7 +9,7 @@
     </header>
 
     <LoadingSpinner v-if="isLoadingSpinner" />
-
+    <p class="error-message" v-else-if="!!errorMessage">{{ errorMessage }}</p>
     <section class="search-list-container" v-else>
       <ul class="search-list">
         <slot></slot>
@@ -25,9 +25,8 @@ const LoadingSpinner = defineAsyncComponent(
 import { storeToRefs } from "pinia";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { defineAsyncComponent } from "vue";
-
 const heroes = useGetHeroes();
-const { isLoadingSpinner } = storeToRefs(heroes);
+const { isLoadingSpinner , errorMessage} = storeToRefs(heroes);
 </script>
 
 <style scoped lang="scss">
@@ -43,6 +42,7 @@ const { isLoadingSpinner } = storeToRefs(heroes);
   justify-content: center;
   padding: 7rem 0;
 }
+
 .search-list-container {
   padding: 3rem 0;
   height: calc(100vh - 17.5rem - 6rem);
