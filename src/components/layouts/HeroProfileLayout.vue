@@ -5,16 +5,16 @@
     <div class="hero-container" v-else>
       <header class="hero-header">
         <h1 class="hero-header__name">
-          {{ selectHouse }}
+          {{ setHouseName }}
         </h1>
       </header>
 
       <HouseCard
         view="members"
         v-if="routeName === 'house'"
-        :house="membersOfHouse"
+        :members="setHouseMembers"
       ></HouseCard>
-      <PersonCard view="person" v-else :person="personOfHouse"></PersonCard>
+      <PersonCard view="person" v-else :person="setPersonDetails"></PersonCard>
 
       <BaseButton
         mode="border"
@@ -33,11 +33,11 @@ const LoadingSpinner = defineAsyncComponent(
 );
 const HouseCard = defineAsyncComponent(() => import("../content/HouseCard.vue"));
 const PersonCard = defineAsyncComponent(() => import("../content/PersonCard.vue"));
-import { Members, Character } from "../../../types/members";
+import { Character, Person, House } from "../../../types/members";
 import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { reactive, computed, onMounted, defineAsyncComponent} from "vue";
+import { computed, watchEffect, defineAsyncComponent } from "vue";
 
 const route = useRoute();
 const routeName = String(route.name);
@@ -47,46 +47,25 @@ const heroes = useGetHeroes();
 const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
 const { setHeroes } = heroes;
 
-let membersOfHouse = reactive<Members>({ name: "", members: [] });
-let personOfHouse = reactive<Character>({
-  house: "",
-  name: "",
-  quotes: [],
-  slug: "",
+const setHouseName = computed<string>(() => {
+  const { house, name }: { house: House; name: string } = selectedHeroes.value[0];
+
+  if (routeName === "house") return name;
+  return house?.name || "No house";
 });
 
-const selectHouse = computed(() => {
-  if (routeName === "house") {
-    return membersOfHouse.name;
-  }
-  return personOfHouse.house;
+const setHouseMembers = computed<Person[]>(() => {
+  const { members }: { members: Person[] } = selectedHeroes.value[0];
+  return members;
 });
 
-const setMembersOfHouse = () => {
-  membersOfHouse.name = selectedHeroes.value[0].name;
-  membersOfHouse.members = selectedHeroes.value[0].members;
-};
+const setPersonDetails = computed<Character>(() => {
+  const person: Character = selectedHeroes.value[0];
+  return person;
+});
 
-const setPersonDetails = () => {
-  const selectedHero = selectedHeroes.value[0];
-  personOfHouse.house = selectedHero.house?.name || "No house";
-  personOfHouse.name = selectedHero.name;
-  personOfHouse.quotes = selectedHero.quotes;
-  personOfHouse.slug = selectedHero.slug;
-};
-
-const setHeroData = async () => {
+watchEffect(async () => {
   await setHeroes(`${routeName}/${path}`);
-
-  if (routeName === "house") {
-    setMembersOfHouse();
-  } else {
-    setPersonDetails();
-  }
-};
-
-onMounted(() => {
-  setHeroData();
 });
 </script>
 

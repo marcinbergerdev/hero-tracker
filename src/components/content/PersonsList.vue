@@ -1,5 +1,5 @@
 <template>
-  <SearchList>
+  <SearchContainerLayout>
     <template #search>
       <input
         class="form-input"
@@ -26,11 +26,11 @@
         >
       </li>
     </template>
-  </SearchList>
+  </SearchContainerLayout>
 </template>
 
 <script setup lang="ts">
-const SearchList = defineAsyncComponent(() => import("../layouts/SearchList.vue"));
+const SearchContainerLayout = defineAsyncComponent(() => import("../layouts/SearchContainerLayout.vue"));
 import { Character } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { useUserWindowSize } from "../../../store/userWindowSize";
@@ -55,7 +55,8 @@ const filteredHousesOnDesktop = computed(() => {
 });
 
 const elementFilteringByNameOnMobile = (e: Event) => {
-  personName.value = (e.target as HTMLFormElement).value;
+  const inputValue = (e.target as HTMLFormElement).value;
+  personName.value = inputValue;
 
   if (width.isMobile) {
     const selectedHouses = elementFiltering();
@@ -78,16 +79,6 @@ onMounted(async () => {
 </script>
 
 <style scoped lang="scss">
-.form-input {
-  padding: 1rem;
-  width: 100%;
-  color: var(--text-clr);
-  background-color: transparent;
-  border-radius: 1rem;
-  border: 0;
-  outline: 2px solid var(--text-clr);
-}
-
 .person-list-box {
   width: min(25rem, 100%);
   text-align: center;

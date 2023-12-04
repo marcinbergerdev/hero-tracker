@@ -43,26 +43,10 @@ const { isLoadingSpinner } = storeToRefs(heroes);
   justify-content: center;
   padding: 7rem 0;
 }
-
-.search-form,
-.form-box {
-  width: 100%;
-}
 .search-list-container {
   padding: 3rem 0;
   height: calc(100vh - 17.5rem - 6rem);
   overflow: auto;
-}
-
-.search-list-container {
-  &::-webkit-scrollbar {
-    width: 8px;
-    background-color: var(--content-bg);
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: var(--header-bg);
-  }
 }
 
 .search-list {

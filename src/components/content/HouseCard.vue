@@ -1,7 +1,7 @@
 <template>
   <section class="hero-list-section">
     <ul class="hero-list">
-      <li class="hero-list-box" v-for="(member, id) in house.members" :key="id">
+      <li class="hero-list-box" v-for="(member, id) in members" :key="id">
         <h2>{{ member.name }}</h2>
         <p class="hero-list-box__slug">( {{ member.slug }} )</p>
       </li>
@@ -10,10 +10,10 @@
 </template>
 
 <script setup lang="ts">
-import { Members } from "../../../types/members";
+import { Person } from "../../../types/members";
 
 defineProps<{
-  house: Members;
+  members: Person[];
   view: string;
 }>();
 </script>

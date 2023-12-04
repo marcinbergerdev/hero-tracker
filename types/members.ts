@@ -1,11 +1,12 @@
+
 export type Person = {
    name: string;
    slug: string;
 };
 
-export type Members = {
-   name: string;
-   members: Person[];
+export type Quote = {
+   character: Character;
+   sentence: string;
 };
 
 export type House = {
@@ -14,8 +15,8 @@ export type House = {
 };
 
 export type Character = {
-   house: string;
+   house: Person;
    name: string;
-   quotes: string[];
+   quotes?: string[];
    slug: string;
 };

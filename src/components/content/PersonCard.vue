@@ -1,6 +1,6 @@
 <template>
   <section class="hero-list-section">
-    <h3 class="person-house-name">{{ person.name }}</h3>
+    <h3 class="person-name">{{ setPersonName }}</h3>
 
     <ul class="hero-list quotes">
       <li class="quotes-box">
@@ -20,10 +20,10 @@
 </template>
 
 <script setup lang="ts">
-import { Character } from "../../../types/members.ts";
+import { Character } from "../../../types/members";
 import { useGetHeroes } from "../../../store/getHeroes";
 import { storeToRefs } from "pinia";
-import { ref, toRefs, watchEffect } from "vue";
+import { ref, computed, onMounted, toRefs } from "vue";
 
 const props = defineProps<{
   person: Character;
@@ -36,31 +36,42 @@ const { selectedQuotes } = storeToRefs(heroes);
 const { getQuotes } = heroes;
 const quotes = ref<string[]>([]);
 
+const setPersonName = computed<string>(() => {
+  const { name }: { name: string } = person.value;
+  return name;
+});
+
 const setAmountOfQuotes = () => {
   const amountOfQuotesFromPerson = person.value.quotes.length;
   selectRandomQuotes(amountOfQuotesFromPerson);
 };
 
-const selectRandomQuotes = async (amount: number) => {
-  await getQuotes(`random/${amount}`);
+const selectRandomQuotes = async (amountOfQuotes: number) => {
+  await getQuotes(`random/${amountOfQuotes}`);
   quotes.value = [];
+  assigningRandomQuotes(amountOfQuotes);
+};
 
+const assigningRandomQuotes = (amountOfQuotes: number) => {
   const minimumAmount = 1;
-  if (amount <= minimumAmount) return quotes.value.push(selectedQuotes.value.sentence);
+  if (amountOfQuotes <= minimumAmount) return quotes.value.push(selectedQuotes.value.sentence);
+
   const newQuotes = [...selectedQuotes.value];
   newQuotes.forEach(({ sentence }) => {
     quotes.value.push(sentence);
   });
 };
 
-watchEffect(async () => {
+
+
+onMounted(() => {
   quotes.value = [...person.value.quotes];
 });
 </script>
 
 <style scoped lang="scss">
-.person-house-name {
-  margin: 0 auto;
+.person-name {
+  margin: 2rem auto;
   padding: 1rem;
   width: min(30rem, 90%);
   justify-content: center;

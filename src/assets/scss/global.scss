@@ -34,3 +34,15 @@ button {
    background-color: transparent;
    border: 0;
 }
+
+.hero-container,
+.search-list-container {
+   &::-webkit-scrollbar {
+      width: 8px;
+      background-color: var(--content-bg);
+   }
+
+   &::-webkit-scrollbar-thumb {
+      background-color: var(--header-bg);
+   }
+}

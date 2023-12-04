@@ -13,15 +13,16 @@
 </template>
 
 <script setup lang="ts">
+import { Quote } from "../../../types/members";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { storeToRefs } from "pinia";
 import { ref, onMounted } from "vue";
 
-const randomQuotes = ref<any>([]);
-
 const heroes = useGetHeroes();
 const { selectedQuotes } = storeToRefs(heroes);
 const { getQuotes } = heroes;
+
+const randomQuotes = ref<Quote[]>([]);
 
 const setRandomQuotes = () => {
   getRandomQuotes();

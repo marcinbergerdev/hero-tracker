@@ -5,7 +5,7 @@ import { useMobileMenuVisibility } from "../store/mobileMenuVisibility";
 const HousesList = () => import("./components/content/HousesList.vue");
 const PersonsList = () => import("./components/content/PersonsList.vue");
 const QuotesList = () => import("./components/content/QuotesList.vue");
-const HeroCard = () => import("./components/layouts/HeroCard.vue");
+const HeroProfileLayout = () => import("./components/layouts/HeroProfileLayout.vue");
 
 export const router = createRouter({
    history: createWebHistory(),
@@ -22,7 +22,7 @@ export const router = createRouter({
       {
          name: "house",
          path: "/houses/:id",
-         component: HeroCard,
+         component: HeroProfileLayout,
          props: true,
       },
       {
@@ -33,7 +33,7 @@ export const router = createRouter({
       {
          name: "character",
          path: "/persons/:id",
-         component: HeroCard,
+         component: HeroProfileLayout,
          props: true,
       },
       {
