@@ -31,7 +31,9 @@ const setRandomQuotes = () => {
 const getRandomQuotes = async () => {
   const urlPath = "random/5";
   await getQuotes(urlPath);
-  randomQuotes.value = [...selectedQuotes.value];
+
+  if (selectedQuotes.value && Array.isArray(selectedQuotes.value))
+    return randomQuotes.value = [...selectedQuotes.value];
 };
 
 onMounted(() => {

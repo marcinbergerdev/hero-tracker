@@ -5,18 +5,28 @@ export type Person = {
 };
 
 export type Quote = {
-   character: Character;
+   character: HouseName;
    sentence: string;
 };
 
-export type House = {
-   slug: string;
-   name: string;
+export type HouseName = {
+  name: string;
+  slug: string;
+  house: Person;
 };
+
+export type House = {
+   name: string;
+   slug: string;
+   members: Person[];
+};
+
+
+
 
 export type Character = {
    house: Person;
    name: string;
-   quotes?: string[];
+   quotes: string[];
    slug: string;
 };

@@ -54,15 +54,19 @@ const selectRandomQuotes = async (amountOfQuotes: number) => {
 
 const assigningRandomQuotes = (amountOfQuotes: number) => {
   const minimumAmount = 1;
-  if (amountOfQuotes <= minimumAmount) return quotes.value.push(selectedQuotes.value.sentence);
+  if (amountOfQuotes <= minimumAmount) {
+    if (selectedQuotes.value) {
+      quotes.value.push(selectedQuotes.value.sentence);
+    }
+  }
+  const newQuotes = Array.isArray(selectedQuotes.value)
+    ? [...selectedQuotes.value]
+    : [selectedQuotes.value];
 
-  const newQuotes = [...selectedQuotes.value];
   newQuotes.forEach(({ sentence }) => {
     quotes.value.push(sentence);
   });
 };
-
-
 
 onMounted(() => {
   quotes.value = [...person.value.quotes];

@@ -30,8 +30,10 @@
 </template>
 
 <script setup lang="ts">
-const SearchContainerLayout = defineAsyncComponent(() => import("../layouts/SearchContainerLayout.vue"));
-import { Person } from "../../../types/members.ts";
+const SearchContainerLayout = defineAsyncComponent(
+  () => import("../layouts/SearchContainerLayout.vue")
+);
+import { House } from "../../../types/members";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { useUserWindowSize } from "../../../store/userWindowSize";
 import { storeToRefs } from "pinia";
@@ -41,9 +43,9 @@ import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 const width = useUserWindowSize();
 const route = useRoute();
 
-const houses = ref<Person[]>([]);
+const houses = ref<House[]>([]);
 const houseName = ref("");
-const filteredHousesOnMobile = ref<Person[]>([]);
+const filteredHousesOnMobile = ref<House[]>([]);
 
 const heroes = useGetHeroes();
 const { selectedHeroes } = storeToRefs(heroes);
@@ -74,7 +76,9 @@ const elementFiltering = () => {
 onMounted(async () => {
   const routePath = String(route.name);
   await setHeroes(routePath);
-  houses.value = [...selectedHeroes.value];
+  
+  if (selectedHeroes.value && Array.isArray(selectedHeroes.value))
+    return (houses.value = [...selectedHeroes.value]);
 });
 </script>
 

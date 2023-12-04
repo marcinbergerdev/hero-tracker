@@ -30,7 +30,9 @@
 </template>
 
 <script setup lang="ts">
-const SearchContainerLayout = defineAsyncComponent(() => import("../layouts/SearchContainerLayout.vue"));
+const SearchContainerLayout = defineAsyncComponent(
+  () => import("../layouts/SearchContainerLayout.vue")
+);
 import { Character } from "../../../types/members.ts";
 import { useGetHeroes } from "../../../store/getHeroes.ts";
 import { useUserWindowSize } from "../../../store/userWindowSize";
@@ -39,7 +41,7 @@ import { storeToRefs } from "pinia";
 import { ref, onMounted, computed, defineAsyncComponent } from "vue";
 
 const width = useUserWindowSize();
-const route = useRoute()
+const route = useRoute();
 
 const personName = ref("");
 const persons = ref<Character[]>([]);
@@ -74,7 +76,9 @@ const elementFiltering = () => {
 onMounted(async () => {
   const routePath = String(route.name);
   await setHeroes(routePath);
-  persons.value = [...selectedHeroes.value];
+
+  if (selectedHeroes.value && Array.isArray(selectedHeroes.value))
+    return (persons.value = [...selectedHeroes.value]);
 });
 </script>
 
