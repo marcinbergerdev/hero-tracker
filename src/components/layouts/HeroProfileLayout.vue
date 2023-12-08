@@ -42,6 +42,12 @@ import { computed, watchEffect, defineAsyncComponent } from "vue";
 const route = useRoute();
 const routeName = String(route.name);
 const path = route.params.id;
+const defaultPersonDetail: Character = {
+  house: { name: "No house", slug: "no" },
+  name: "No name",
+  quotes: ["No quotes"],
+  slug: "no",
+};
 
 const heroes = useGetHeroes();
 const { selectedHeroes, isLoadingSpinner } = storeToRefs(heroes);
@@ -53,6 +59,8 @@ const setHouseName = computed(() => {
     if (routeName === "house") return name;
     return house?.name || "No house";
   }
+
+  return defaultPersonDetail.house.name;
 });
 
 const setHouseMembers = computed(() => {
@@ -62,11 +70,13 @@ const setHouseMembers = computed(() => {
   }
 });
 
-const setPersonDetails = computed<Character | undefined>(() => {
+const setPersonDetails = computed(() => {
   if (selectedHeroes.value && Array.isArray(selectedHeroes.value)) {
     const person: Character = selectedHeroes.value[0];
     return person;
   }
+
+  return defaultPersonDetail;
 });
 
 watchEffect(async () => {
